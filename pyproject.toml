@@ -1,0 +1,18 @@
+[project]
+name = "comfyui-inpaint-webui-style"
+description = "WebUI-style inpaint nodes for ComfyUI. Reproduces AUTOMATIC1111 / Forge inpaint behavior with mask blur, mask invert, four masked-content modes (original/fill/latent_noise/latent_nothing), only-masked padding, and composite-back-to-original for seamless inpainting."
+version = "1.0.0"
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/wangjue520/ComfyUI-Inpaint-WebUI-Style"
+bugtracker = "https://github.com/wangjue520/ComfyUI-Inpaint-WebUI-Style/issues"
+
+[tool.comfy]
+PublisherId = "wangjue520"
+DisplayName = "ComfyUI-Inpaint-WebUI-Style"
+Icon = ""
+includes = []

@@ -1,0 +1,2 @@
+# No additional dependencies required.
+# This pack uses only PyTorch and ComfyUI built-in modules.
