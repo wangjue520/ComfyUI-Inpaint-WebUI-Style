@@ -140,13 +140,17 @@ class LoadImageInpaintWebUI:
         latent_samples = vae.encode(pixels_for_encode[:, :, :, :3])
 
         # latent_noise 模式:在 latent 上再叠加纯噪声
+        # latent 的高宽取最后两维:SD/SDXL 是 [B,C,H,W],Anima / Qwen-Image / Wan 这类是 [B,C,T,H,W]
+        latent_hw = tuple(latent_samples.shape[-2:])
         if masked_content == "latent_noise":
             # 把蒙版缩到 latent 尺寸
             mask_latent_size = F.interpolate(
                 mask.unsqueeze(1),
-                size=(latent_samples.shape[2], latent_samples.shape[3]),
+                size=latent_hw,
                 mode="bilinear",
             )
+            if latent_samples.dim() == 5:
+                mask_latent_size = mask_latent_size.unsqueeze(2)   # [B,1,1,H,W]
             noise = torch.randn_like(latent_samples)
             latent_samples = latent_samples * (1.0 - mask_latent_size) + \
                              noise * mask_latent_size
@@ -154,7 +158,7 @@ class LoadImageInpaintWebUI:
         # ===== 7. 缩放蒙版到 latent 尺寸,作为 noise_mask =====
         mask_for_latent = F.interpolate(
             mask.unsqueeze(1),
-            size=(latent_samples.shape[2], latent_samples.shape[3]),
+            size=latent_hw,
             mode="bilinear",
         )
 
